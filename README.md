@@ -10,3 +10,10 @@ npx sequelize-cli seed:generate --name default
 
 
 錯誤處理應該可以統一用一個 middles ware 這樣，再看看。
+
+
+"eslint": "^5.15.1",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.16.0",
+    "husky": "^1.3.1",
+    "lint-staged": "^8.1.5"
