@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
+    <link rel="stylesheet" href="/css/backstage.css">
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+
+            <a class="navbar-brand" href="#">Navbar</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Lottery</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                    </li>
+                </ul>
+                <div>
+                    <button type="button" class="btn btn-outline-primary">logout</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <h2 class="my-4">Lottery</h2>
+        <table class="table lottery_table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Chance</th>
+                    <th scope="col">Content</th>
+                    <th scope="col" class="uri">imgURI</th>
+                    <th scope="col">Unreached</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (let prize of prizeData) {%>
+                <tr>
+                    <% if (prize.id == editId) {%>
+                    <th scope="row"><%= prize.id %></th>
+                    <td><input class="form-control" type="text" name="name" value="<%= prize.name %>"  <%= prize.name === 'default' ?  'readonly' : '' %>></td>
+                    <td><input class="form-control" type="text" name="chance" value="<%= prize.chance %>" <%= prize.name === 'default' ?  'readonly' : '' %>></td>
+                    <td><input class="form-control" type="text" name="content" value="<%= prize.content %>"></td>
+                    <td class="uri">
+                        <input id="uri" class="form-control d-inline" type="text" name="imgURI"
+                            value="<%= prize.imgURI %>">
+                        <input id="upload" type="file" class="mt-2 form-control-file d-inline">
+                    </td>
+                    <td><input type="checkbox" name="unReached" <%= prize.unReached ? 'checked' : '' %> <%= prize.name === 'default' ?  'disabled' : '' %>></td>
+                    <td><button id="submit" type="submit" class="btn btn-outline-primary d-block"
+                            data-id="<%= prize.id %>">submit</button></td>
+                    <td><button type="submit" class="btn btn-danger d-block" data-id="<%= prize.id %>">delete</button>
+                    </td>
+                    <% } else {%>
+                    <th scope="row"><%= prize.id %> </th>
+                    <td><%= prize.name %></td>
+                    <td><%= prize.chance %></td>
+                    <td><%= prize.content %></td>
+                    <td class="uri">
+                        <textarea name="" id="" readonly><%= prize.imgURI %></textarea>
+                    </td>
+                    <td><%= prize.unReached %>
+                    </td>
+                    <td>
+                        <a href="/admin/lottery?edit=<%= prize.id %>"><button type="submit"
+                                class="btn btn-primary mb-2">Edit</button></a>
+                    <td>
+                        <a href="/"><button type="submit" class="btn btn-danger  mb-2">Delete</button></a>
+                    </td>
+                    <% } %>
+                </tr>
+                <%  } %>
+                <% if (!editId) {%>
+                <tr>
+                    <th scope="row"></th>
+                    <td><input class="form-control" type="text" name="name" value=""></td>
+                    <td><input class="form-control" type="text" name="chance" value=""></td>
+                    <td><input class="form-control" type="text" name="content" value=""></td>
+                    <td class="uri">
+                        <input id="uri" class="form-control d-inline" type="text" name="imgURI" value="">
+                        <input id="upload" type="file" class="mt-2 form-control-file d-inline">
+                    </td>
+                    <td><input type="checkbox" name="unReached"></td>
+                    <td><button id="submit" type="submit" class="btn btn-outline-primary d-block">submit</button></td>
+                    <td></td>
+                </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        document.querySelector('#upload').addEventListener('change', async function () {
+            const uri = document.querySelector('#uri');
+            uri.value = 'upload, waiting...';
+            uri.setAttribute('readonly', true);
+
+            const formData = new FormData();
+            formData.append('image', this.files[0]);
+            const res = await fetch('/img', {
+                method: 'POST',
+                body: formData
+            })
+            const json = await res.json();
+            console.log(json);
+            console.log(this.previousElementSibling.innerHTML);
+            uri.value = json.url;
+            uri.removeAttribute('readonly')
+            this.value = null;
+
+        });
+
+        document.querySelector('#submit').addEventListener('click', async function () {
+            const inputs = document.querySelectorAll('input[name]');
+            let data = Array.from(inputs).reduce((acc, e) => {
+                // console.log(e.name);
+                acc[e.name] = e.type === 'checkbox' ? e.checked : e.value
+                return acc
+            }, {});
+            let res = null;
+            if (this.dataset.id) {
+                res = await fetch('/prizes/' + this.dataset.id, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+            } else {
+                res = await fetch('/prizes', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+            }
+            if (res.ok) {
+                window.location = '/admin/lottery'
+            }
+            console.log(res.ok);
+
+        });
+    </script>
+</body>
+
+</html>

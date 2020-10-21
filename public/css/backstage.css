@@ -1,0 +1,12 @@
+.lotery_table {
+    /* table-layout: fixed; */
+}
+
+.uri {
+}
+
+.uri textarea {
+    width: 100%;
+    overflow: auto;
+    resize: none;
+}
