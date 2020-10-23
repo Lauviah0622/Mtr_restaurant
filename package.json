@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint ./homeworks/**/*.js"
+    "lint": "eslint ./homeworks/**/*.js",
+    "model_add": "npx sequelize-cli model:generate",
+    "model_run": "npx sequelize-cli db:migrate",
+    "seed_add": "npx sequelize-cli seed:generate --name"
   },
   "author": "",
   "license": "ISC",
@@ -28,6 +31,7 @@
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.5",
     "ejs": "^3.1.5",
     "express": "^4.17.1",
     "express-session": "^1.17.1",

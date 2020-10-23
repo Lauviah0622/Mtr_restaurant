@@ -4,7 +4,7 @@ function buttonHandler(e) {
 }
 
 async function draw() {
-    let res = await fetch('/draw');
+    let res = await fetch('/api/draw');
     let json = await res.json();
     console.log(json);
     getPrize(json);

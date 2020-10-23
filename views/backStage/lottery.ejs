@@ -11,39 +11,17 @@
         integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 
     <title>Hello, world!</title>
-    <link rel="stylesheet" href="/css/backstage.css">
-
+    <style>
+        .uri textarea {
+            width: 100%;
+            overflow: auto;
+            resize: none;
+        }
+    </style>
 </head>
 
 <body>
-
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container">
-
-            <a class="navbar-brand" href="#">Navbar</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Lottery</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                    </li>
-                </ul>
-                <div>
-                    <button type="button" class="btn btn-outline-primary">logout</button>
-                </div>
-            </div>
-        </div>
-    </nav>
+    <%- include('modules/nav'); %>
     <div class="container">
         <h2 class="my-4">Lottery</h2>
         <table class="table lottery_table">
@@ -75,7 +53,10 @@
                     <td><input type="checkbox" name="unReached" <%= prize.unReached ? 'checked' : '' %> <%= prize.name === 'default' ?  'disabled' : '' %>></td>
                     <td><button id="submit" type="submit" class="btn btn-outline-primary d-block"
                             data-id="<%= prize.id %>">submit</button></td>
-                    <td><button type="submit" class="btn btn-danger d-block" data-id="<%= prize.id %>">delete</button>
+                    <td>
+                        <% if (prize.name !== 'default') {%>
+                        <button type="submit" class="btn btn-danger d-block" data-id="<%= prize.id %>">delete</button>
+                        <% } %> 
                     </td>
                     <% } else {%>
                     <th scope="row"><%= prize.id %> </th>
@@ -91,7 +72,9 @@
                         <a href="/admin/lottery?edit=<%= prize.id %>"><button type="submit"
                                 class="btn btn-primary mb-2">Edit</button></a>
                     <td>
-                        <a href="/"><button type="submit" class="btn btn-danger  mb-2">Delete</button></a>
+                        <% if (prize.name !== 'default') {%>
+                        <a href="/"><button type="submit" class="btn btn-danger mb-2"  data-id="<%= prize.id %>">Delete</button></a>
+                        <% } %> 
                     </td>
                     <% } %>
                 </tr>
@@ -122,7 +105,7 @@
 
             const formData = new FormData();
             formData.append('image', this.files[0]);
-            const res = await fetch('/img', {
+            const res = await fetch('/api/img', {
                 method: 'POST',
                 body: formData
             })
@@ -144,7 +127,7 @@
             }, {});
             let res = null;
             if (this.dataset.id) {
-                res = await fetch('/prizes/' + this.dataset.id, {
+                res = await fetch('/api/prize/' + this.dataset.id, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -152,7 +135,7 @@
                     body: JSON.stringify(data),
                 });
             } else {
-                res = await fetch('/prizes', {
+                res = await fetch('/api/prizes', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
