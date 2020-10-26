@@ -5,10 +5,10 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const cookieParser = require('cookie-parser')
 const flash = require('connect-flash');
+const cls = require('cls-hooked');
 // const router = ;
 
 const port = process.env.PORT || 5501;
-
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.json());

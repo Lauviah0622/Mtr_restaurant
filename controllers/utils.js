@@ -19,6 +19,17 @@ const createSyncMiddelware = (cb) => {
     }
 }
 
+const isIdValid = (id) => {
+    return typeof id === 'number' && !isNaN(id)
+};
+
+const getValidId = (from) => {
+    if (typeof from === 'undefined') throw Error('no Id');
+    if (typeof from !== 'number' || isNaN(from)) throw Error('invalid ID')
+    return from
+};
+
+
 class Controller {
     constructor(module) {
         this.module = module;
@@ -114,7 +125,8 @@ Controller.prototype.add = function () {
 
 
 module.exports = {
-    sendOkRes: sendOkRes,
+    sendOkRes,
     createSyncMiddelware,
-    Controller
+    Controller,
+    isIdValid
 }

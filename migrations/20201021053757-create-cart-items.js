@@ -54,6 +54,11 @@ module.exports = {
       onDelete: 'cascade',
       onUpdate: 'cascade'
     })
+    await queryInterface.addConstraint('CartItems', {
+      fields: ['productId', 'cartId'],
+      type: 'UNIQUE',
+      name: 'UK_productId_cartId',
+    })
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('CartItems');

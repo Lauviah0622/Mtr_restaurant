@@ -18,7 +18,7 @@ module.exports = {
       },
       qty: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,
@@ -52,6 +52,11 @@ module.exports = {
       },
       onDelete: 'cascade',
       onUpdate: 'cascade'
+    })
+    await queryInterface.addConstraint('orderItems', {
+      fields: ['productId', 'orderId'],
+      type: 'unique',
+      name: 'UK_productId_orderId'
     })
   },
   down: async (queryInterface, Sequelize) => {

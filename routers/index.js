@@ -10,7 +10,8 @@ router.use('/api', [
     require('./apis/prize'), 
     require('./apis/product'),
     require('./apis/img'),
-    require('./apis/cart')
+    require('./apis/cart'),
+    require('./apis/order')
 ])
 
 module.exports = (app) => {
