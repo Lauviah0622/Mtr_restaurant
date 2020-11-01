@@ -46,7 +46,7 @@ Probability.draw = async (req, res, next) => {
 }
 
 const checkName = createSyncMiddelware((req, res) => {
-    if (!req.name) throw Error('no name')
+    if (!req.body.name) throw Error('no name')
 })
 
 const checkData = createSyncMiddelware((req, res) => {

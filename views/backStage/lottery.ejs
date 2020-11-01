@@ -127,7 +127,8 @@
             }, {});
             let res = null;
             if (this.dataset.id) {
-                res = await fetch('/api/prize/' + this.dataset.id, {
+                console.log(data);
+                res = await fetch('/api/prizes/' + this.dataset.id, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',

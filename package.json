@@ -9,7 +9,9 @@
     "model_add": "npx sequelize-cli model:generate",
     "model_run": "npx sequelize-cli db:migrate",
     "seed_add": "npx sequelize-cli seed:generate --name",
+    "run": "pm2 start ecosystem.config.js && npx webpack --watch",
     "start": "pm2 start ecosystem.config.js && npx webpack --watch",
+    "deploy": "npm install && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all && npx webpack && sass src/scss/:dist/css && node app.js",
     "stop": "pm2 delete all"
   },
   "author": "",

@@ -13,13 +13,13 @@ app.set('view engine', 'ejs');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
-  extended: true,
+    extended: true,
 }));
 app.use(cookieParser())
 app.use(session({
-  secret: 'keyboard cat',
-  resave: false,
-  saveUninitialized: true,
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true,
 }));
 app.use(flash());
 
@@ -31,16 +31,16 @@ require('./routers')(app);
 
 // err handler
 app.use((err, req, res, next) => {
-  console.log('Error handler: ', err);
-  // res.redirect('/')
-  res.end();
+    console.log('Error handler: ', err);
+    // res.redirect('/')
+    res.end();
 });
 
 
-app.get('*', function(req, res){
-  res.status(404).send('what???');
+app.get('*', function(req, res) {
+    res.status(404).send('what???');
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+    console.log(`Example app listening at http://localhost:${port}`);
 });

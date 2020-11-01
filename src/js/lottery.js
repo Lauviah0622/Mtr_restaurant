@@ -6,7 +6,6 @@ function buttonHandler(e) {
 async function draw() {
     let res = await fetch('/api/draw');
     let json = await res.json();
-    console.log(json);
     getPrize(json);
 }
 
@@ -52,10 +51,10 @@ function getPrize(json) {
 
 document.querySelectorAll('.lottery-btn')[0].addEventListener('click', buttonHandler);
 document.querySelectorAll('.lottery-btn')[1].addEventListener('click', () => {
+    wrapper.style.background = 'url("./images/lottery/games-bn@3x.jpg");';
     const wrapper = document.querySelector('.wrapper');
 
     wrapper.classList.add('lottery');
     wrapper.classList.remove('prize');
-    wrapper.style.background = 'url("./images/lottery/games-bn@3x.jpg");';
 });
 
