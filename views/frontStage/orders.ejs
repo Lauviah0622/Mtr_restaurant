@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+
+    <title>Document</title>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet"> -->
+    <link rel="stylesheet" href="./css/normalize.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/orders.css">
+
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <%- include('modules/nav'); %>
+        <main id="main">
+            <header class="banner"></header>
+            <section class="intro block">
+                <h2 class="block__title">
+                    <span>
+                        我的訂單
+                    </span>
+                </h2>
+            </section>
+            <section class="orders">
+                <table class="list">
+                    <thead class="list__header">
+                        <tr class="list__row">
+                            <td class="list__cell list__cell--index">訂單編號</td>
+                            <td class="list__cell">訂單日期</td>
+                            <td class="list__cell list__cell--name">數量</td>
+                            <td class="list__cell list__cell--price">金額</td>
+                            <td class="list__cell list__cell--num">狀態</td>
+                        </tr>
+                    </thead>
+                    <tbody class="list__body">
+                        <% Array.from(Array(5)).forEach(() => { %>
+                            <tr class="list__row">
+                                <td class="list__cell list__cell--index">
+                                    <a href="/order/id">i</a>
+                                </td>
+                                <td class="list__cell">2020-07-03 11:49:12</td>
+                                <td class="list__cell">5</td>
+                                <td class="list__cell">2000</td>
+                                <td class="list__cell">配送中</td>
+                            </tr>
+                        
+                        <% }) %>
+                    </tbody>
+                </table>
+                <div class="orders__btn btn">
+                    繼續購物
+                </div>
+            </section>
+
+        </main>
+        <%- include('modules/footer'); %>
+    </div>
+</body>
+
+</html>

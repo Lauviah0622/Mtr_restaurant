@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class qa extends Model {
+  class Qa extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,13 +13,20 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   };
-  qa.init({
+  Qa.init({
     priority: DataTypes.INTEGER,
     question: DataTypes.TEXT,
     answer: DataTypes.TEXT
   }, {
+    hooks: {
+      afterCreate: async (qa, option) => {
+        await qa.update({
+          priority: +qa.id
+        });
+      }
+    },
     sequelize,
-    modelName: 'qa',
+    modelName: 'Qa',
   });
-  return qa;
+  return Qa;
 };

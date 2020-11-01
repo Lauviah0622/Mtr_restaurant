@@ -23,11 +23,20 @@ const isIdValid = (id) => {
     return typeof id === 'number' && !isNaN(id)
 };
 
+const isIdExist = async (model, where) => {
+    return  (await model.findOne({where})) ? true : false
+}
+
 const getValidId = (from) => {
-    if (typeof from === 'undefined') throw Error('no Id');
-    if (typeof from !== 'number' || isNaN(from)) throw Error('invalid ID')
+    if (typeof from === 'string') return +from;
+    if (typeof from === 'undefined') return false;
+    if (typeof from !== 'number' || isNaN(from)) return false;
     return from
 };
+
+const isUndefined = (from) => {
+    return typeof from === 'undefined' ? true : false;
+}
 
 
 class Controller {
@@ -128,5 +137,8 @@ module.exports = {
     sendOkRes,
     createSyncMiddelware,
     Controller,
-    isIdValid
+    isIdValid,
+    getValidId,
+    isIdExist,
+    isUndefined
 }

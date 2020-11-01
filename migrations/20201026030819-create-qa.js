@@ -9,7 +9,9 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       priority: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        defaultValue: Sequelize.col('id').value
       },
       question: {
         type: Sequelize.TEXT
@@ -26,6 +28,7 @@ module.exports = {
         type: Sequelize.DATE
       }
     });
+
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('qas');

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+
+  <title>Document</title>
+  <link rel="stylesheet" href="./css/normalize.css">
+  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/product.css">
+  
+</head>
+
+<body>
+  <div class="page-wrapper">
+    <%- include('modules/nav'); %>
+    <main id="main">
+      <header class="banner"></header>
+      <section class="intro block">
+        <h2 class="block__title">
+          <span>
+            點餐囉～
+          </span>
+        </h2>
+      </section>
+      <section class="menu">
+        <% products.forEach((product) => { %>
+          <div class="product">
+            <div class="product__img">
+              <img src="<%= product.imgURI%>" alt="" srcset="">
+            </div>
+            
+            <div class="product__info">
+              <span class="product__title"><%= product.name%></span> | $
+              <span class="product__price"><%= product.price%></span>
+            </div>
+            <div class="product__btn btn <%= product.qty < 1 ? 'btn--disabled product__btn--disabled' : ''%>"
+              data-id="<%= product.id %>">
+              加入購物車
+            </div>
+          </div>
+        <% }) %> 
+
+        
+      </section>
+      <a href="/cart">
+        <div class="product__cart">
+          購物車
+        </div>
+
+      </a>
+    </main>
+    <%- include('modules/footer'); %>
+    <script src="/js/product.bundle.js"></script>
+
+  </div>
+</body>
+
+</html>

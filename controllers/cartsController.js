@@ -1,41 +1,123 @@
 const db = require('../models');
-const { createSyncMiddelware, sendOkRes, Controller } = require('./utils');
+const { sendOkRes, Controller, getValidId, isIdExist, isUndefined } = require('./utils');
 const { Carts, CartItems, Products } = db;
 const cartsController = new Controller(db.Carts);
 
-// controller 應該是要建立很多模組提供 router 去串接
-
-const TESTID = 20;
-cartsController.checkCart = async function (req, res, next) {
-    try {
-        console.log('session', req.session);
-        console.log('cookies', req.cookies);
-        let cartItemsData = {};
-        if (!req.session.cartId) {
-            console.log("no cart ID");
-            let cartData = await Carts.create();
-            req.session.cartId = TESTID || cartData.id;
-        } else {
-            console.log("has cart ID");
-            cartItemsData = await CartItems.findAll({
-                attributes: ['qty'],
-                include: {
-                    model: Products,
-                    attributes: ['name', 'price', ['qty', 'productQty'], 'status']
-                },
-                where: { cartId: req.session.cartId },
-                raw: true
-            })
-        }
-        res.cookie('cartItems', cartItemsData);
-        next();
-    } catch (err) {
-        next(err)
+const getCartItems = async (where = {}, attributes) => {
+    let options = {}
+    options.where = where;
+    if (Array.isArray(attributes) && attributes.length > 0) {
+        options.attributes = attributes;
     }
-    // 這邊的 data 跟上面 if 裡面的 data 一樣這樣是可以的嗎？
+    return await CartItems.findAll(options);
+}
+
+const deleteCartItmes = async (where = {}) => {
+    return await CartItems.destroy({where})
+}
+
+const getNewCart = async () => {
+    return await Carts.create();
+}
+
+const addCartItem = async (cartId, productId, qty) => {
+    return await CartItems.create({
+        cartId,
+        productId,
+        qty
+    })
+}
+
+const  updateCartItem = async (cartId, productId, props) => {
+    return await CartItems.update(props, {where: {cartId, productId}});
+}
+
+const updateCartItems = async (cartId, cartItems) => {
+    if (!Array.isArray(cartItems)) return false;
+    // db.sequelize.transaction(async () => {
+
+    // })
+    const cartItemAddingList = {...cartItems};
+    const oldCartItems = getCartItems({cartId}, ['productId', 'qty']);
+    oldCartItems.forEach(oldcartItem => {
+        cartItems.forEach(cartItem => {
+            if (oldcartItem.productId === cartItem.productId) {
+            // 舊的新地都有
+            } else {
+                
+            }
+
+
+        })
+
+        // 就得有，新的沒有
+    })
+    console.log(oldCartItems);
+    console.log("update!!");
+}
+
+const setCartItemCookie = (res, cartItems) => {
+    if (!Array.isArray(cartItems)) {
+        cartItems = [];
+    }
+    res.cookie('cartItems', cartItems)
+}
+
+
+const TESTID = 3;
+cartsController.checkCart = async function (req, res, next) {
+    // 流程圖 https://reurl.cc/A8pY2Z
+
+    let cartId = getValidId(req.session.cartId)
+    if (!cartId || !await (isIdExist(Carts, { id: cartId }))) {
+        console.log('no Valid ID');
+        let newCartData = await getNewCart();
+        cartId = newCartData.id;
+        setCartItemCookie(res, []);
+        req.session.cartId = cartId;
+        console.log(cartId);
+        next();
+        return
+    }
+    console.log('has valid ID');
+    req.session.cartId = TESTCARTID || cartId;
+
+
+    console.log('========cartItems origin cookie from express====');
+    console.log(req.cookies.cartItems);
+    console.log(typeof req.cookies.cartItems);
+    console.log('===============================================');
+    const cartItems = req.cookies.cartItems;
+
+    const cartItemsData = await CartItems.findAll({
+        attributes: ['productId', 'qty'],
+        where: {
+            cartId
+        },
+        raw: true
+    })
+    console.log('cartItems', cartItems);
+    if (typeof cartItems === 'undefined' || cartItems.length < 1) {
+        if (cartItemsData.length === 0) {
+            console.log('no  Cart Item Data');
+            setCartItemCookie(res, cartItemsData);
+        } else {
+            console.log('has Cart Item Data');
+            setCartItemCookie(res, cartItems);
+        }
+    } else {
+        console.log('has Cart Item');
+        console.log('======', cartItems, '======');
+        console.log('======', typeof cartItems, '======');
+        updateCartItems(cartId, cartItems)
+        setCartItemCookie(res, cartItems);
+    }
+    next();
+    return
 }
 
 cartsController.updateItem = async function (req, res, next) {
+
     console.log('add Cart');
     try {
         cartId = req.session.cartId;
@@ -47,7 +129,7 @@ cartsController.updateItem = async function (req, res, next) {
                 where: { cartId, productId }
             })
             sendOkRes(res, data);
-            return 
+            return
         }
         // check item exist
         const cartProductData = await CartItems.findOne({
@@ -64,7 +146,7 @@ cartsController.updateItem = async function (req, res, next) {
             })
             console.log('add success');
             sendOkRes(res, data);
-            return 
+            return
         }
         // if not exist, add new Item
         let data = await CartItems.create({
@@ -73,11 +155,11 @@ cartsController.updateItem = async function (req, res, next) {
             qty: qty
         })
         sendOkRes(res, data);
-        return 
-    } catch (err){
+        return
+    } catch (err) {
         next(err);
     }
-    
+
 }
 
 module.exports = cartsController

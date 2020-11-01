@@ -8,7 +8,9 @@
     "lint": "eslint ./homeworks/**/*.js",
     "model_add": "npx sequelize-cli model:generate",
     "model_run": "npx sequelize-cli db:migrate",
-    "seed_add": "npx sequelize-cli seed:generate --name"
+    "seed_add": "npx sequelize-cli seed:generate --name",
+    "start": "pm2 start ecosystem.config.js && npx webpack --watch",
+    "stop": "pm2 delete all"
   },
   "author": "",
   "license": "ISC",
@@ -49,8 +51,12 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-react": "^7.21.5",
+    "gulp": "^4.0.2",
     "husky": "^4.3.0",
     "lint-staged": "^10.4.2",
-    "sequelize-cli": "^6.2.0"
+    "sass": "^1.27.0",
+    "sequelize-cli": "^6.2.0",
+    "webpack": "^5.3.0",
+    "webpack-cli": "^4.1.0"
   }
 }

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+
+    <title>Document</title>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet"> -->
+    <link rel="stylesheet" href="./css/normalize.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/cart.css">
+
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <%- include('modules/nav'); %>
+        <main id="main">
+            <header class="banner"></header>
+            <section class="intro block">
+                <h2 class="block__title">
+                    <span>
+                        購物車
+                    </span>
+                </h2>
+            </section>
+            <section class="cart">
+                <table class="list">
+                    <thead class="list__header">
+                        <tr class="list__row">
+                            <td class="list__cell list__cell--index">#</td>
+                            <td class="list__cell list__cell--img"></td>
+                            <td class="list__cell list__cell--name">產品名稱</td>
+                            <td class="list__cell list__cell--price">產品單價</td>
+                            <td class="list__cell list__cell--num">數量</td>
+                            <td class="list__cell list__cell--total">總金額</td>
+                        </tr>
+                    </thead>
+                    <tbody class="list__body">
+                        <% cartItems.forEach((item, i) => { %>
+                        <tr class="list__row">
+                            <td class="list__cell list__cell--index"><%= i %></td>
+                            <td class="list__cell list__cell--img">
+                                <img src="<%= item['Product.imgURI'] %>" alt="" srcset="">
+                            </td>
+                            <td class="list__cell list__cell--name"><%= item['Product.name'] %></td>
+                            <td class="list__cell list__cell--price"><%= item['Product.price'] %></td>
+                            <td class="list__cell list__cell--num"><%= item['Product.qty'] %></td>
+                            <td class="list__cell list__cell--total"><%= item['Product.qty'] * item['Product.price']%></td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                    <tfoot class="list__foot">
+                        <tr class="list__row">
+                            <td class="list__cell list__cell--index"></td>
+                            <td class="list__cell list__cell--img"></td>
+                            <td class="list__cell list__cell--name"></td>
+                            <td class="list__cell list__cell--price"></td>
+                            <td class="list__cell list__cell--num">小計</td>
+                            <td class="list__cell list__cell--total"><%= total%></td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <div id="checkout" class="cart__btn btn">
+                    結帳
+                </div>
+                
+            </section>
+            
+
+        </main>
+        <%- include('modules/footer'); %>
+        
+    </div>
+    <script src="/js/cart.bundle.js"></script>
+</body>
+
+</html>

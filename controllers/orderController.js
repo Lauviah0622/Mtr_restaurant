@@ -93,6 +93,8 @@ async function updateOrderItem(orderId, newOrderItems) {
       let orderQty = orderQtyData === null ? 0 : orderQtyData.qty || 0
       newOrderItem.newProductQty = productQty + orderQty - newOrderItem.qty
       newOrderItem.totalQty = productQty + orderQty;
+      if (newOrderItem.newProductQty < 0) throw Error('Product Doesnt enough');
+
 
       if (orderQtyData !== null) {
         await OrderItems.destroy({

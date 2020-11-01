@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+
+    <title>Document</title>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet"> -->
+    <!-- 有沒有辦法解決這個問題，因為 order 不再根目錄下，這樣 css 就要再加一個 .？有點怪 -->
+    <link rel="stylesheet" href="<%= include('modules/url', {url: '/css/normalize.css'})-%>">
+    <link rel="stylesheet" href="<%= include('modules/url', {url: '/css/style.css'})-%>">
+    <link rel="stylesheet" href="<%= include('modules/url', {url: '/css/order.css'})-%>">
+
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <%- include('modules/nav'); %>
+        <main id="main" class="order">
+            <section class="intro block">
+                <h2 class="block__title">
+                    <span>
+                        訂單明細
+                    </span>
+                </h2>
+            </section>
+            <section class="order__items">
+                <h3>訂單編號：CF200309125</h3>
+
+                <table class="list">
+                    <thead class="list__header">
+                        <tr class="list__row">
+                            <td class="list__cell list__cell--index">#</td>
+                            <td class="list__cell list__cell--img"></td>
+                            <td class="list__cell">商品</td>
+                            <td class="list__cell">價格</td>
+                            <td class="list__cell">數量</td>
+                            <td class="list__cell">小計</td>
+                        </tr>
+                    </thead>
+                    <tbody class="list__body">
+                        <% Array.from(Array(5)).forEach((e, i) => { %>
+                        <tr class="list__row">
+                            <td class="list__cell list__cell--index">
+                                <%= i + 1 %>
+                            </td>
+                            <td class="list__cell list__cell--img">
+                                <img src="<%= include('modules/url', {url: '/images/product/menu/f-001.png'})-%>" alt="" srcset="">
+                            </td>
+                            <td class="list__cell">玫瑰高麗菜</td>
+                            <td class="list__cell">200</td>
+                            <td class="list__cell">5</td>
+                            <td class="list__cell">1000</td>
+                        </tr>
+
+                        <% }) %>
+                    </tbody>
+                    <tfoot class="list__foot">
+                        <tr class="list__row">
+                            <td class="list__cell list__cell--index"></td>
+                            <td class="list__cell list__cell--img"></td>
+                            <td class="list__cell list__cell--name"></td>
+                            <td class="list__cell list__cell--price"></td>
+                            <td class="list__cell list__cell--num">商品合計</td>
+                            <td class="list__cell list__cell--total">2000</td>
+                        </tr>
+                        <tr class="list__row">
+                            <td class="list__cell list__cell--index"></td>
+                            <td class="list__cell list__cell--img"></td>
+                            <td class="list__cell list__cell--name"></td>
+                            <td class="list__cell list__cell--price"></td>
+                            <td class="list__cell list__cell--num">運費</td>
+                            <td class="list__cell list__cell--total">2000</td>
+                        </tr>
+                        <tr class="list__row">
+                            <td class="list__cell list__cell--index"></td>
+                            <td class="list__cell list__cell--img"></td>
+                            <td class="list__cell list__cell--name"></td>
+                            <td class="list__cell list__cell--price"></td>
+                            <td class="list__cell list__cell--num">總計</td>
+                            <td class="list__cell list__cell--total">2000</td>
+                        </tr>
+                    </tfoot>
+                </table>
+                
+            </section>
+            <section class="order__info">
+                <h3>訂單資訊</h3>
+                <p><span>配送狀態</span><span>123</span></p>
+                <p><span>姓名</span><span>123</span></p>
+                <p><span>聯絡電話</span><span>123</span></p>
+                <p><span>電子郵件</span><span>123</span></p>
+                <p><span>送餐地點</span><span>123</span></p>
+            </section>
+            <div class="order__btn btn">
+                <a href="../order">所有訂單</a>
+            </div>
+            
+
+        </main>
+        <%- include('modules/footer'); %>
+    </div>
+</body>
+
+</html>

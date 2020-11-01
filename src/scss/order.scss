@@ -1,0 +1,57 @@
+@import './var';
+@import './component';
+
+
+.order {
+    margin-bottom: 100px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto ;
+    margin-bottom: 100px;
+    display: flex;
+    flex-direction: column;
+
+    section {
+        margin-bottom: 50px;
+        h3 {
+            padding-bottom: 30px;
+            margin-bottom: 50px;
+            border-bottom: 1px solid $color-grey;
+        }
+    }
+
+
+    &__btn {
+        width: 200px;
+        margin-top: 50px;
+        align-self: flex-end;
+    }
+
+    .list__body .list__row:hover {
+        background-color: rgb(240, 240, 240);
+        cursor: pointer;
+    }
+
+    .list__cell--index a {
+        text-decoration: underline;
+        color: $color-green;
+    }
+
+    &__info {
+        h3 {
+            
+        }
+        span {
+            display: inline-block;
+        }
+        span:nth-child(1) {
+           width: 100px; 
+           text-align: right;
+           margin-left: 50px;
+        }
+        span:nth-child(2) {
+            margin-left: 50px;
+            width: 100px; 
+         }
+    }
+}

@@ -1,0 +1,63 @@
+.btn {
+    color: $color-green;
+    line-height: 46px;
+
+    text-align: center;
+    background-color: $color-light-green;
+    border: 1px solid $color-green;
+    cursor: pointer;
+    transition: .5s;
+    
+    
+    &:hover {
+        background-color: adjust-hue($color-light-green, -60)
+    }
+    &--disabled {
+        pointer-events: none;
+        background-color: $color-dark-red;
+    }
+}
+
+.list {
+    border-collapse: collapse;
+    width: 100%;
+    font-family: sans-serif;
+    text-align: center;
+    &__header {
+        background-color: $color-light-grey;
+        text-align: center;
+        .list__cell {
+            padding: 20px ;
+        }
+    }
+
+    &__body {
+        background-color: lighten($color-light-grey, 5%);
+    }
+    
+    &__foot {
+        background-color: lighten($color-light-grey, 4%);
+        .list__cell {
+            padding: 20px ;
+        }
+    }
+
+    &__row {
+        border-bottom: 1px solid $color-light-grey;
+    }
+
+    &__cell {
+        padding: 25px 15px;
+        &--img {
+            img {
+                width: 100%;
+            }
+            width: 100px;
+        }
+
+        &--time {
+            width: 200px;
+        }
+    }
+
+}
